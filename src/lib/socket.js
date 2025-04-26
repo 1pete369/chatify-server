@@ -14,8 +14,8 @@ const io = new Server(server, {
 
 const userSocketMap = {}
 
-const getReceiverSocketId=(userId)=>{
-    return userSocketMap[userId]
+const getReceiverSocketId = (userId) => {
+  return userSocketMap[userId]
 }
 
 io.on("connection", (socket) => {
@@ -28,7 +28,9 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log("A user disconnected", socket.id)
-    delete userSocketMap[userId]
+    if (userId) {
+      delete userSocketMap[userId]
+    }
     io.emit("getOnlineUsers", Object.keys(userSocketMap))
   })
 })
